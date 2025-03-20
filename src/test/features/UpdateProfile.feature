@@ -10,8 +10,8 @@ Feature: UpdateProfile
             | KhoTest Emp |
         When user go to Education, Certifications and clicks on Add button
         Then a popup for user to upload his certificate is displayed
-#When user select the type of certificate, choose a file, enter an Effective date and click on submit button
-#Then a notification popup is displayed and a notification message is displayed
+        When user select the type of certificate, choose a file, enter an Effective date and click on submit button
+        Then a notification popup is displayed and a notification message is displayed
 #When user clicks on the logout button
 #And user enter email, password and click on submit button
 #   | email             | password  |
