@@ -6,6 +6,7 @@ import { ProfilePage } from "../pages/profilePage";
 
 const loginPage = new LoginPage();
 const profilePage = new ProfilePage();
+let sentRequestTime = "";
 
 When(
   "user go to Education, Certifications and clicks on Add button",
@@ -24,4 +25,22 @@ Then(
     let actualtitle = await profilePage.getAddPopupTitle();
     expect(actualtitle).toEqual(" Certifications ");
   }
+);
+
+When(
+  "user select the type of certificate, choose a file, enter an Effective date and click on submit button",
+  async function () {
+    await profilePage.selectCertificate();
+    //await pageFixtures.page.waitForLoadState("networkidle");
+    await profilePage.uploadFile("certif001.txt");
+    await profilePage.setEffectiveDate("");
+    await profilePage.submitCertificate();
+    sentRequestTime = await profilePage.getCurrentSubmitionTime();
+    //
+  }
+);
+
+Then(
+  "a notification popup is displayed and a notification message is displayed",
+  async function () {}
 );

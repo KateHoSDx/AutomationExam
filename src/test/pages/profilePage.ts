@@ -14,6 +14,12 @@ export class ProfilePage {
     add_btn: "//gp-contract-data//span[text()='Add']",
     add_pu: "//gp-modal[@gp-modal='edit-card']//div[@class='modal-content']",
     add_til: "//gp-modal[@gp-modal='edit-card']//div[@class='gp-modal-title']",
+    certification_list: "//input[@class='form-control ui-select-search']",
+    certificationDriverLicence:
+      "//div[@test-id='Certification 1 (Driving licence)']",
+    certification_upl: "//input[@test-id='CertificationScannedCopy']",
+    certificationEffectiveDate_txt: "//input[@placeholder='YYYY-MM-DD']",
+    certificationSubmit_btn: "//button[text()=' Submit ']",
   };
 
   async getUserName(): Promise<string> {
@@ -47,5 +53,40 @@ export class ProfilePage {
       .locator(this.Elements.add_til)
       .textContent();
     return addTitle ?? "";
+  }
+
+  async selectCertificate() {
+    await pageFixtures.page.locator(this.Elements.certification_list).click();
+    await pageFixtures.page
+      .locator(this.Elements.certificationDriverLicence)
+      .click();
+  }
+
+  async uploadFile(filePath: string) {
+    await pageFixtures.page
+      .locator(this.Elements.certification_upl)
+      .setInputFiles(filePath);
+  }
+
+  async setEffectiveDate(effectiveDate: string) {
+    await pageFixtures.page
+      .locator(this.Elements.certificationEffectiveDate_txt)
+      .fill(effectiveDate);
+  }
+
+  async submitCertificate() {
+    await pageFixtures.page
+      .locator(this.Elements.certificationSubmit_btn)
+      .click();
+  }
+
+  async getCurrentSubmitionTime(): Promise<string> {
+    const now = new Date();
+    const formattedTime = `${now.getFullYear()}-${String(
+      now.getMonth() + 1
+    ).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")} ${String(
+      now.getHours()
+    ).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+    return formattedTime;
   }
 }

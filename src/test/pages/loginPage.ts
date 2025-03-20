@@ -34,13 +34,6 @@ export class LoginPage {
     await pageFixtures.page.locator(this.Elements.sub_loc).click();
   }
 
-  async getUserName(): Promise<string> {
-    let username = await pageFixtures.page
-      .locator(this.Elements.username_txt)
-      .textContent();
-    return username ?? "";
-  }
-
   async getPageTitle(): Promise<string> {
     return await pageFixtures.page.title();
   }
