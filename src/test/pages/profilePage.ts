@@ -20,6 +20,19 @@ export class ProfilePage {
     certification_upl: "//input[@test-id='CertificationScannedCopy']",
     certificationEffectiveDate_txt: "//input[@placeholder='YYYY-MM-DD']",
     certificationSubmit_btn: "//button[text()=' Submit ']",
+    popupMsg: "//div[@id='toast-container']",
+    notificationMessage:
+      "//gp-contract-data//div[@class='col-right--warning ng-star-inserted']//span",
+
+    taskList: "#my-tasks-menu",
+    taskContainer: "tbody",
+    firstTaskType: "//gp-table//tbody/tr[1]/td[1]",
+    firstTaskDetails: "//gp-table//tbody/tr[1]/td[2]",
+    firstTaskRequester: "//gp-table//tbody/tr[1]/td[3]//span[1]",
+    firstTaskCreationDate: "//gp-table//tbody/tr[1]/td[6]",
+    taskPopover: "//div[@class='task-popover-details'] ",
+    taskApprove_btn: "//button[@test-id=' Approve ']",
+    taskDecline_btn: "//button[@test-id=' Decline ']",
   };
 
   async getUserName(): Promise<string> {
@@ -88,5 +101,73 @@ export class ProfilePage {
       now.getHours()
     ).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
     return formattedTime;
+  }
+
+  async getDialogText(): Promise<string> {
+    let message = await pageFixtures.page
+      .locator(this.Elements.popupMsg)
+      .textContent();
+    return message ?? "";
+  }
+
+  async getNotificationMessage(): Promise<string> {
+    const notif = await pageFixtures.page
+      .locator(this.Elements.notificationMessage)
+      .textContent();
+    return notif ?? "";
+  }
+
+  async goToTaskList() {
+    await pageFixtures.page.locator(this.Elements.taskList).click();
+  }
+
+  async getTaskList(): Promise<string> {
+    let tasklist = await pageFixtures.page
+      .locator(this.Elements.taskList)
+      .innerHTML();
+    return tasklist ?? "";
+  }
+
+  async clicksOnFirstTask() {
+    await pageFixtures.page.locator(this.Elements.firstTaskDetails).click();
+  }
+
+  async getFirstTaskDetails(): Promise<{
+    taskType: string;
+    details: string;
+    requester: string;
+    creationDate: string;
+  }> {
+    return {
+      taskType:
+        (await pageFixtures.page
+          .locator(this.Elements.firstTaskType)
+          .textContent()) ?? "",
+      details:
+        (await pageFixtures.page
+          .locator(this.Elements.firstTaskDetails)
+          .textContent()) ?? "",
+      requester:
+        (await pageFixtures.page
+          .locator(this.Elements.firstTaskRequester)
+          .textContent()) ?? "",
+      creationDate:
+        (await pageFixtures.page
+          .locator(this.Elements.firstTaskCreationDate)
+          .textContent()) ?? "",
+    };
+  }
+  async getTaskPopover(): Promise<boolean> {
+    return await pageFixtures.page
+      .locator(this.Elements.taskPopover)
+      .isVisible();
+  }
+
+  async clickOnApproveButton() {
+    await pageFixtures.page.locator(this.Elements.taskApprove_btn).click();
+  }
+
+  async clickOnDeclineButton() {
+    await pageFixtures.page.locator(this.Elements.taskDecline_btn).click();
   }
 }
