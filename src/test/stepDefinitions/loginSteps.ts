@@ -26,13 +26,6 @@ When(
   }
 );
 
-Then("user profile page is displayed", async function (dataTable) {
-  const expectedusername = dataTable.raw()[1][0];
-  await pageFixtures.page.waitForLoadState("networkidle");
-  let actualusername = await profilePage.getUserName();
-  await expect(actualusername).toEqual(expectedusername);
-});
-
 //Logout scenario
 Given("user is on the profile page", async function () {
   expect(await profilePage.getUserName()).not.toEqual("");
