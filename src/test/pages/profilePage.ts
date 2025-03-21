@@ -25,7 +25,6 @@ export class ProfilePage {
     popupMsg: "//div[@id='toast-container']",
     notificationMessage:
       "//gp-contract-data//div[@class='col-right--warning ng-star-inserted']//span",
-
     taskList: "#my-tasks-menu",
     taskListOther: "//button[@test-id='status-filter-other']",
     taskContainer: "tbody",
@@ -37,6 +36,10 @@ export class ProfilePage {
     taskPopover: "//div[@class='task-popover-details'] ",
     taskApprove_btn: "//button[@test-id=' Approve ']",
     taskDecline_btn: "//button[@test-id=' Decline ']",
+    notificationIcon: "//gp-navbar//ul/li[1]/a/em",
+    firstNotification: "//gp-communications-card/div[1]/div[1]/div[2]/div/span",
+    firstNotificationDetails:
+      "//gp-notification-details//div[@test-id='notification-body-click']",
   };
 
   async getUserName(): Promise<string> {
@@ -182,5 +185,26 @@ export class ProfilePage {
 
   async clickOnFilterOther() {
     await pageFixtures.page.locator(this.Elements.taskListOther).click();
+  }
+
+  async hoverOnNotificationIcon() {
+    await pageFixtures.page.locator(this.Elements.notificationIcon).hover();
+  }
+
+  async clickOnTheFirstNotificationText() {
+    await pageFixtures.page.locator(this.Elements.firstNotification).click();
+  }
+
+  async getFirstNotificationText(): Promise<string> {
+    let firstNotificationText = await pageFixtures.page
+      .locator(this.Elements.firstNotification)
+      .textContent();
+    return firstNotificationText ?? "";
+  }
+
+  async getFirstNotificationDetails() {
+    await pageFixtures.page
+      .locator(this.Elements.firstNotificationDetails)
+      .textContent();
   }
 }

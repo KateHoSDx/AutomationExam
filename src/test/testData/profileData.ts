@@ -5,6 +5,7 @@ export const ProfileData = {
     eEmpUsername: "KhoTest Emp",
     eManUsername: "KhoTest Man",
     eHrUsername: "KhoTest Hr",
+    eValidator: "KhoTest Hr",
     //Employee send request popup message
     eHrPopupMsg: "Your successfully completed the task.",
     eManPopupMsg: "Your successfully completed the task.",
@@ -24,5 +25,7 @@ export const ProfileData = {
       "Changes in Certifications for KhoTest Emp were declined",
     eNotificationForApprovedrequest:
       "Changes in Certifications for KhoTest Emp were approved",
+    eNotificationDetailsApproveBy: "The request was approved by ",
+    eNotificationDetailsDeclineBy: "The request was declined by ",
   },
 };

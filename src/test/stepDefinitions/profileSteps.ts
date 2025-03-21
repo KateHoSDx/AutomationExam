@@ -148,3 +148,53 @@ Then(
     }
   }
 );
+
+When("user Hover on the notification icon", async function () {
+  await profilePage.clickOnFilterOther();
+});
+
+Then(
+  "the {string} request notification is displayed",
+  async function (action: string) {
+    const firstnotification = profilePage.getFirstNotificationText();
+    switch (action.toLowerCase()) {
+      case "approve":
+        expect(firstnotification).toBe(
+          profileData.eNotificationForApprovedrequest
+        );
+        break;
+
+      case "decline":
+        expect(firstnotification).toBe(
+          profileData.eNotificationForDecliedRequest
+        );
+        break;
+
+      default:
+        throw new Error(`Action "${action}" is not recognized`);
+    }
+  }
+);
+
+When("user clicks on the notification", async function () {
+  await profilePage.clickOnTheFirstNotificationText();
+});
+
+Then(
+  "the {string} Notification details is displayed",
+  async function (action: string) {
+    let actualText = await profilePage.getFirstNotificationDetails();
+    switch (action.toLowerCase()) {
+      case "approve":
+        expect(actualText).toContain(profileData.eNotificationDetailsApproveBy);
+        break;
+
+      case "decline":
+        expect(actualText).toContain(profileData.eNotificationDetailsDeclineBy);
+        break;
+
+      default:
+        throw new Error(`Action "${action}" is not recognized`);
+    }
+  }
+);
