@@ -24,23 +24,23 @@ Feature: UpdateProfile
         Then a notification popup is displayed
         When user clicks on filter OTHER
         Then the "<Action>" task is displayed with correct status
-            # When user clicks on the logout button
-            # And user enter email, password and click on submit button
+        When user clicks on the logout button
+        And user enter email, password and click on submit button
             | email             | password  |
             | KhoTestMan@gp.com | autoss#12 |
-        # And Hover on the notification icon
-        # Then the "<Action>" request notification is displayed
-        #When user clicks on the notification
-        #Then Notification details is displayed
-        # When user clicks on the logout button
-        # And user enter email, password and click on submit button
-        #    | email             | password  |
-        #    | KhoTestEmp@gp.com | autoss#12 |
-        #Then user profile page is displayed
-        #when user Hover on the notification icon
-        # Then the "<Action>" request notification is displayed
-        #When user clicks on the notification
-        #Then Notification details is displayed
+        And user Hover on the notification icon
+        Then the "<Action>" request notification is displayed
+        When user clicks on the notification
+        Then the "<Action>" Notification details is displayed
+        When user clicks on the logout button
+        And user enter email, password and click on submit button
+            | email             | password  |
+            | KhoTestEmp@gp.com | autoss#12 |
+        Then user profile page is displayed
+        when user Hover on the notification icon
+        Then the "<Action>" request notification is displayed
+        When user clicks on the notification
+        Then the "<Action>" Notification details is displayed
         #When user go to Education, Certifications
         #Then <Action> request of certification is in the correct state
 
