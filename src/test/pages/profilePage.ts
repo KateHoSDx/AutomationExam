@@ -8,6 +8,8 @@ export class ProfilePage {
     logout_btn: "//gp-navbar//a[text()=' Sign out ']",
     mySpace_a: "#ess-menu",
     persoInfo_a: "#ess-personal-info-menu",
+    civilIdentification_a:
+      "//gp-contract-data-group-menu//a/span[text()='Civil identification']",
     education_a: "//gp-contract-data-group-menu//span[text()='Education']",
     certification_a:
       "//gp-contract-data-group-menu//span[text()='Certifications']",
@@ -25,10 +27,12 @@ export class ProfilePage {
       "//gp-contract-data//div[@class='col-right--warning ng-star-inserted']//span",
 
     taskList: "#my-tasks-menu",
+    taskListOther: "//button[@test-id='status-filter-other']",
     taskContainer: "tbody",
     firstTaskType: "//gp-table//tbody/tr[1]/td[1]",
     firstTaskDetails: "//gp-table//tbody/tr[1]/td[2]",
     firstTaskRequester: "//gp-table//tbody/tr[1]/td[3]//span[1]",
+    firstTaskStatus: "//gp-table//tbody/tr[1]/td[5]//span",
     firstTaskCreationDate: "//gp-table//tbody/tr[1]/td[6]",
     taskPopover: "//div[@class='task-popover-details'] ",
     taskApprove_btn: "//button[@test-id=' Approve ']",
@@ -103,7 +107,7 @@ export class ProfilePage {
     return formattedTime;
   }
 
-  async getDialogText(): Promise<string> {
+  async getPopupText(): Promise<string> {
     let message = await pageFixtures.page
       .locator(this.Elements.popupMsg)
       .textContent();
@@ -137,6 +141,7 @@ export class ProfilePage {
     details: string;
     requester: string;
     creationDate: string;
+    status: string;
   }> {
     return {
       taskType:
@@ -155,6 +160,10 @@ export class ProfilePage {
         (await pageFixtures.page
           .locator(this.Elements.firstTaskCreationDate)
           .textContent()) ?? "",
+      status:
+        (await pageFixtures.page
+          .locator(this.Elements.firstTaskStatus)
+          .textContent()) ?? "",
     };
   }
   async getTaskPopover(): Promise<boolean> {
@@ -169,5 +178,9 @@ export class ProfilePage {
 
   async clickOnDeclineButton() {
     await pageFixtures.page.locator(this.Elements.taskDecline_btn).click();
+  }
+
+  async clickOnFilterOther() {
+    await pageFixtures.page.locator(this.Elements.taskListOther).click();
   }
 }

@@ -10,6 +10,12 @@ const profilePage = new ProfilePage();
 let sentRequestTime = "";
 const profileData = ProfileData.QA;
 
+Then("user profile page is displayed", async function () {
+  await pageFixtures.page.waitForLoadState("networkidle");
+  let actualUsername = await profilePage.getUserName();
+  expect(actualUsername.trim()).toBeTruthy();
+});
+
 When(
   "user go to Education, Certifications and clicks on Add button",
   async function () {
@@ -30,11 +36,11 @@ Then(
 );
 
 When(
-  "user select the type of certificate, choose a file {string}, enter an Effective date and click on submit button",
+  "user select the type of certificate, choose a file, enter an Effective date and click on submit button",
   async function () {
     await profilePage.selectCertificate();
     //await pageFixtures.page.waitForLoadState("networkidle");
-    await profilePage.uploadFile("certif001.txt");
+    await profilePage.uploadFile(profileData.testCertificationPath);
     await profilePage.setEffectiveDate("");
     await profilePage.submitCertificate();
     sentRequestTime = await profilePage.getCurrentSubmitionTime();
@@ -42,16 +48,31 @@ When(
   }
 );
 
-Then(
-  "a notification popup is displayed and a notification message is displayed",
-  async function () {
-    let currentpopuptext = await profilePage.getDialogText();
-    expect(currentpopuptext).toEqual(profileData.eEmpPopupMsg);
+Then("a notification popup is displayed", async function () {
+  let currentpopuptext = await profilePage.getPopupText();
+  let username = await profilePage.getUserName();
+  switch (username) {
+    case profileData.eEmpUsername:
+      expect(currentpopuptext).toEqual(profileData.eEmpPopupMsg);
+      break;
 
-    let currentNotificationMsg = await profilePage.getNotificationMessage();
-    expect(currentNotificationMsg).toEqual(profileData.eNotificationMsg);
+    case profileData.eManPopupMsg:
+      expect(currentpopuptext).toEqual(profileData.eManPopupMsg);
+      break;
+
+    case profileData.eHrPopupMsg:
+      expect(currentpopuptext).toEqual(profileData.eHrPopupMsg);
+      break;
+
+    default:
+      throw new Error(`username "${username}" is not part of tet data`);
   }
-);
+});
+
+Then("a notification message is displayed", async function () {
+  let currentNotificationMsg = await profilePage.getNotificationMessage();
+  expect(currentNotificationMsg).toEqual(profileData.eNotificationMsg);
+});
 
 When("user go to task list", async function () {
   await profilePage.goToTaskList();
@@ -68,24 +89,20 @@ When("user go to task list", async function () {
   }
 );*/
 
-Then(
-  "the request is displayed in the user task list",
-  async function (dataTable) {
-    const eEmpName = dataTable.raw()[1][0];
-    const taskDetails = await profilePage.getFirstTaskDetails();
+Then("the request is displayed in the user task list", async function () {
+  const taskDetails = await profilePage.getFirstTaskDetails();
 
-    expect(taskDetails.taskType).toBe(profileData.eTaskType);
-    expect(taskDetails.details).toBe(profileData.eTaskDetails);
-    expect(taskDetails.requester).toBe(eEmpName);
-    expect(taskDetails.creationDate).toBe(sentRequestTime);
-  }
-);
+  expect(taskDetails.taskType).toBe(profileData.eTaskType);
+  expect(taskDetails.details).toBe(profileData.eTaskDetails);
+  expect(taskDetails.requester).toBe(profileData.eEmpUsername);
+  expect(taskDetails.creationDate).toBe(sentRequestTime);
+});
 
 When("user clicks on the task", async function () {
   await profilePage.clicksOnFirstTask();
 });
 
-Then("the task details are displayed", async function (dataTable) {
+Then("the task details are displayed", async function () {
   const isPopoverVisible = await profilePage.getTaskPopover();
   expect(isPopoverVisible).toBe(true);
 });
@@ -104,3 +121,30 @@ When("user click on {string} button", async function (action: string) {
       throw new Error(`Action "${action}" is not recognized`);
   }
 });
+When("user clicks on filter OTHER", async function () {
+  await profilePage.clickOnFilterOther();
+});
+
+Then(
+  "the {string} task is displayed with correct status",
+  async function (action: string) {
+    const taskDetails = await profilePage.getFirstTaskDetails();
+
+    expect(taskDetails.taskType).toBe(profileData.eTaskType);
+    expect(taskDetails.details).toBe(profileData.eTaskDetails);
+    expect(taskDetails.requester).toBe(profileData.eEmpUsername);
+    expect(taskDetails.creationDate).toBe(sentRequestTime);
+    switch (action.toLowerCase()) {
+      case "approve":
+        expect(taskDetails.status).toBe(profileData.eTaskApproveStatus);
+        break;
+
+      case "decline":
+        expect(taskDetails.status).toBe(profileData.eTaskDeniedStatus);
+        break;
+
+      default:
+        throw new Error(`Action "${action}" is not recognized`);
+    }
+  }
+);
