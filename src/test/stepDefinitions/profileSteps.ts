@@ -8,6 +8,7 @@ import { ProfileData } from "../testData/profileData";
 const loginPage = new LoginPage();
 const profilePage = new ProfilePage();
 let sentRequestTime = "";
+let eValidator = "";
 const profileData = ProfileData.QA;
 
 Then("user profile page is displayed", async function () {
@@ -19,10 +20,8 @@ Then("user profile page is displayed", async function () {
 When(
   "user go to Education, Certifications and clicks on Add button",
   async function () {
-    await profilePage.clickOnProfile();
-    //await pageFixtures.page.waitForLoadState("networkidle");
-    await profilePage.clickOnLogoutButton();
-    //
+    await profilePage.goToCertificate();
+    await pageFixtures.page.waitForLoadState("networkidle");
   }
 );
 
@@ -31,7 +30,7 @@ Then(
   async function () {
     await pageFixtures.page.waitForLoadState("networkidle");
     let actualtitle = await profilePage.getAddPopupTitle();
-    expect(actualtitle).toEqual(profileData.eCertificationTitle);
+    expect(actualtitle).toBe(profileData.eCertificationTitle);
   }
 );
 
@@ -39,7 +38,7 @@ When(
   "user select the type of certificate, choose a file, enter an Effective date and click on submit button",
   async function () {
     await profilePage.selectCertificate();
-    //await pageFixtures.page.waitForLoadState("networkidle");
+    await pageFixtures.page.waitForLoadState("networkidle");
     await profilePage.uploadFile(profileData.testCertificationPath);
     await profilePage.setEffectiveDate("");
     await profilePage.submitCertificate();
@@ -53,15 +52,15 @@ Then("a notification popup is displayed", async function () {
   let username = await profilePage.getUserName();
   switch (username) {
     case profileData.eEmpUsername:
-      expect(currentpopuptext).toEqual(profileData.eEmpPopupMsg);
+      expect(currentpopuptext).toBe(profileData.eEmpPopupMsg);
       break;
 
     case profileData.eManPopupMsg:
-      expect(currentpopuptext).toEqual(profileData.eManPopupMsg);
+      expect(currentpopuptext).toBe(profileData.eManPopupMsg);
       break;
 
     case profileData.eHrPopupMsg:
-      expect(currentpopuptext).toEqual(profileData.eHrPopupMsg);
+      expect(currentpopuptext).toBe(profileData.eHrPopupMsg);
       break;
 
     default:
@@ -71,10 +70,11 @@ Then("a notification popup is displayed", async function () {
 
 Then("a notification message is displayed", async function () {
   let currentNotificationMsg = await profilePage.getNotificationMessage();
-  expect(currentNotificationMsg).toEqual(profileData.eNotificationMsg);
+  expect(currentNotificationMsg).toBe(profileData.eNotificationMsg);
 });
 
 When("user go to task list", async function () {
+  await pageFixtures.page.waitForLoadState("networkidle");
   await profilePage.goToTaskList();
 });
 
@@ -90,6 +90,7 @@ When("user go to task list", async function () {
 );*/
 
 Then("the request is displayed in the user task list", async function () {
+  await pageFixtures.page.waitForLoadState("networkidle");
   const taskDetails = await profilePage.getFirstTaskDetails();
 
   expect(taskDetails.taskType).toBe(profileData.eTaskType);
@@ -120,6 +121,7 @@ When("user click on {string} button", async function (action: string) {
     default:
       throw new Error(`Action "${action}" is not recognized`);
   }
+  eValidator = await profilePage.getUserName();
 });
 When("user clicks on filter OTHER", async function () {
   await profilePage.clickOnFilterOther();
@@ -186,11 +188,43 @@ Then(
     let actualText = await profilePage.getFirstNotificationDetails();
     switch (action.toLowerCase()) {
       case "approve":
-        expect(actualText).toContain(profileData.eNotificationDetailsApproveBy);
+        expect(actualText).toContain(
+          profileData.eNotificationDetailsApproveBy + eValidator
+        );
         break;
 
       case "decline":
-        expect(actualText).toContain(profileData.eNotificationDetailsDeclineBy);
+        expect(actualText).toContain(
+          profileData.eNotificationDetailsDeclineBy + eValidator
+        );
+        break;
+
+      default:
+        throw new Error(`Action "${action}" is not recognized`);
+    }
+  }
+);
+
+When("user go to Education, Certifications", async function () {
+  await profilePage.goToCertificate();
+});
+
+Then(
+  "{string} request of certification is in the correct state",
+  async function (action: string) {
+    let actualType = await profilePage.getCertificateCardType();
+    let actualFileName = await profilePage.getCertificateCardFile();
+    switch (action.toLowerCase()) {
+      case "approve":
+        expect(actualType, "Missing Type").toBeTruthy();
+        expect(actualFileName, "Missing File name").toBeTruthy();
+        expect(actualFileName).toBe(profileData.testCertificationFileName);
+        break;
+
+      case "decline":
+        expect(actualType, "Type should be null").toBeNull();
+        expect(actualFileName, "File name should be null").toBeNull();
+
         break;
 
       default:
