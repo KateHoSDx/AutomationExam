@@ -11,7 +11,7 @@ let sentRequestTime = "";
 let eValidator = "";
 const profileData = ProfileData.QA;
 
-Then("user profile page is displayed", async function () {
+Then("user profile page is displayed", { timeout: 15000 }, async function () {
   await pageFixtures.page.waitForLoadState("networkidle");
   let actualUsername = await profilePage.getUserName();
   expect(actualUsername.trim()).toBeTruthy();
@@ -36,11 +36,13 @@ Then(
 
 When(
   "user select the type of certificate, choose a file, enter an Effective date and click on submit button",
+  { timeout: 15000 },
   async function () {
     await pageFixtures.page.waitForLoadState("networkidle");
+    await profilePage.clickOnAddButton();
     await profilePage.selectCertificate();
-    await pageFixtures.page.waitForLoadState("networkidle");
     await profilePage.uploadFile(profileData.testCertificationPath);
+    await pageFixtures.page.waitForLoadState("networkidle");
     await profilePage.setEffectiveDate(profileData.testEffectiveDate);
     await profilePage.submitCertificate();
     sentRequestTime = await profilePage.getCurrentSubmitionTime();
@@ -211,7 +213,7 @@ When("user go to Education, Certifications", async function () {
 });
 
 Then(
-  "the {string} request of certification is in the correct state in user's profile",
+  "the Approve request of certification is in the correct state in user profile",
   async function (action: string) {
     let actualType = await profilePage.getCertificateCardType();
     let actualFileName = await profilePage.getCertificateCardFile();

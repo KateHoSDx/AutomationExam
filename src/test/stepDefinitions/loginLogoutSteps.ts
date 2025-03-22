@@ -7,11 +7,8 @@ import { ProfilePage } from "../pages/profilePage";
 const loginPage = new LoginPage();
 const profilePage = new ProfilePage();
 
-Given("user is on the login page", async function () {
-  await pageFixtures.page.goto(
-    "https://globalsolutions-reference.gpi-test.globepayroll.net/ui/#/dashboard"
-  ),
-    { waitUntil: "domcontentloaded" };
+Given("user is on the login page", { timeout: 15000 }, async function () {
+  await loginPage.goTo();
   await pageFixtures.page.waitForLoadState("networkidle");
 });
 

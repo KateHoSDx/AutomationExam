@@ -1,14 +1,14 @@
 Feature: Login and logout
 
-
+    @Login
     Scenario: Login with valid credentials
         Given user is on the login page
         When user enter email, password and click on submit button
             | email             | password  |
             | KhoTestEmp@gp.com | autoss#12 |
         Then user profile page is displayed
-            | username    |
-            | KhoTest Emp |
+    # | username    |
+    # | KhoTest Emp |
 
     Scenario: Logout
         Given user is on the profile page

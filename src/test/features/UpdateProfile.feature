@@ -42,7 +42,7 @@ Feature: UpdateProfile
         When user clicks on the notification
         Then the "<Action>" Notification details is displayed
         When user go to Education, Certifications
-        Then the <Action> request of certification is in the correct state in user's profile
+        Then the <Action> request of certification is in the correct state in user profile
 
         Examples:
             | Action  |
