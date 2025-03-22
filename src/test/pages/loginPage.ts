@@ -17,6 +17,11 @@ export class LoginPage {
     await pageFixtures.page.waitForLoadState("networkidle");
   }
 
+  async waitForLoginFormToBeVisible() {
+    const loginButton = pageFixtures.page.locator(this.Elements.sub_loc); // Example: adjust for your page
+    await loginButton.waitFor({ state: "visible", timeout: 20000 });
+  }
+
   async enterUsername(username: string) {
     await pageFixtures.page.locator(this.Elements.user_loc).fill(username);
   }

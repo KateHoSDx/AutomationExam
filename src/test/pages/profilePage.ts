@@ -16,7 +16,7 @@ export class ProfilePage {
     add_btn: "//gp-contract-data//span[text()='Add']",
     add_pu: "//gp-modal[@gp-modal='edit-card']//div[@class='modal-content']",
     add_til: "//gp-modal[@gp-modal='edit-card']//div[@class='gp-modal-title']",
-    certification_list: "//input[@class='form-control ui-select-search']",
+    certification_list: "//div[@class='ui-select-match']/span", //"//input[@class='form-control ui-select-search']",
     certificationDriverLicence:
       "//div[@test-id='Certification 1 (Driving licence)']",
     certification_upl: "//input[@test-id='CertificationScannedCopy']",
@@ -31,7 +31,7 @@ export class ProfilePage {
     firstTaskType: "//gp-table//tbody/tr[1]/td[1]",
     firstTaskDetails: "//gp-table//tbody/tr[1]/td[2]",
     firstTaskRequester: "//gp-table//tbody/tr[1]/td[3]//span[1]",
-    firstTaskStatus: "//gp-table//tbody/tr[1]/td[5]//span",
+    firstTaskStatus: "//gp-table//tbody//tr[1]/td[5]/div[1]/span[1]",
     firstTaskCreationDate: "//gp-table//tbody/tr[1]/td[6]",
     taskPopover: "//div[@class='task-popover-details'] ",
     taskApprove_btn: "//button[@test-id=' Approve ']",
@@ -81,6 +81,8 @@ export class ProfilePage {
   }
 
   async selectCertificate() {
+    await pageFixtures.page.locator(this.Elements.certification_list).focus();
+    //await pageFixtures.page.locator(this.Elements.certification_list).fill("Ce");
     await pageFixtures.page.locator(this.Elements.certification_list).click();
     await pageFixtures.page
       .locator(this.Elements.certificationDriverLicence)
@@ -151,29 +153,30 @@ export class ProfilePage {
     creationDate: string;
     status: string;
   }> {
+    let tType = await pageFixtures.page
+      .locator(this.Elements.firstTaskType)
+      .textContent();
+    let tDetails = await pageFixtures.page
+      .locator(this.Elements.firstTaskDetails)
+      .textContent();
+    let tRequester = await pageFixtures.page
+      .locator(this.Elements.firstTaskRequester)
+      .textContent();
+    let creationDate = await pageFixtures.page
+      .locator(this.Elements.firstTaskCreationDate)
+      .textContent();
+    let tStatus = await pageFixtures.page
+      .locator(this.Elements.firstTaskStatus)
+      .textContent();
     return {
-      taskType:
-        (await pageFixtures.page
-          .locator(this.Elements.firstTaskType)
-          .textContent()) ?? "",
-      details:
-        (await pageFixtures.page
-          .locator(this.Elements.firstTaskDetails)
-          .textContent()) ?? "",
-      requester:
-        (await pageFixtures.page
-          .locator(this.Elements.firstTaskRequester)
-          .textContent()) ?? "",
-      creationDate:
-        (await pageFixtures.page
-          .locator(this.Elements.firstTaskCreationDate)
-          .textContent()) ?? "",
-      status:
-        (await pageFixtures.page
-          .locator(this.Elements.firstTaskStatus)
-          .textContent()) ?? "",
+      taskType: tType ?? "",
+      details: tDetails ?? "",
+      requester: tRequester ?? "",
+      creationDate: creationDate ?? "",
+      status: tStatus ?? "",
     };
   }
+
   async getTaskPopover(): Promise<boolean> {
     return await pageFixtures.page
       .locator(this.Elements.taskPopover)

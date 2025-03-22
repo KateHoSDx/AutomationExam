@@ -9,11 +9,11 @@ export const ProfileData = {
     //Employee send request popup message
     eHrPopupMsg: "Your successfully completed the task.",
     eManPopupMsg: "Your successfully completed the task.",
-    eEmpPopupMsg: "Your request was recorded.",
+    eEmpPopupMsg: " Your request was recorded. ",
     eNotificationMsg: "Your request is in the process of being validated.",
     //certification add popup title
     eCertificationTitle: " Certifications ",
-    testCertificationPath: "../testData/certif001.txt",
+    testCertificationPath: "src/test/testData/certif001.txt",
     testCertificationFileName: "certif001.txt",
     testEffectiveDate: "2025-03-21",
     //Task expect results

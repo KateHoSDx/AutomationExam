@@ -5,6 +5,8 @@ import { LoginPage } from "../pages/loginPage";
 import { ProfilePage } from "../pages/profilePage";
 import { ProfileData } from "../testData/profileData";
 
+import path from "path";
+
 const loginPage = new LoginPage();
 const profilePage = new ProfilePage();
 let sentRequestTime = "";
@@ -41,7 +43,11 @@ When(
     await pageFixtures.page.waitForLoadState("networkidle");
     await profilePage.clickOnAddButton();
     await profilePage.selectCertificate();
-    await profilePage.uploadFile(profileData.testCertificationPath);
+    const filePath = path.resolve(
+      process.cwd(),
+      profileData.testCertificationPath
+    );
+    await profilePage.uploadFile(filePath);
     await pageFixtures.page.waitForLoadState("networkidle");
     await profilePage.setEffectiveDate(profileData.testEffectiveDate);
     await profilePage.submitCertificate();
