@@ -10,10 +10,10 @@ export class LoginPage {
       "//gp-navbar//li[3]//span[@class='block l-h-1x _500 text-capitalize nav-user-name']",
   };
 
-  async goTo(): Promise<void> {
+  /*async goTo(): Promise<void> {
     await pageFixtures.page.goto("/");
     await pageFixtures.page.waitForLoadState("networkidle");
-  }
+  }*/
 
   async enterUsername(username: string) {
     await pageFixtures.page.locator(this.Elements.user_loc).fill(username);

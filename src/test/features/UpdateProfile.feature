@@ -37,7 +37,7 @@ Feature: UpdateProfile
             | email             | password  |
             | KhoTestEmp@gp.com | autoss#12 |
         Then user profile page is displayed
-        when user Hover on the notification icon
+        When user Hover on the notification icon
         Then the "<Action>" request notification is displayed
         When user clicks on the notification
         Then the "<Action>" Notification details is displayed

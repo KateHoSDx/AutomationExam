@@ -3,11 +3,12 @@
       "formatOptions": {
         "snippetInterface": "async-await"
       },
-      "paths": ["src/test/features/"],      
+      "paths": ["src/test/features/*.features"],      
       "dryRun": false,
       "require": [
         "src/test/stepDefinitions/*.ts",
-        "src/test/Utils/*.ts"                
+        "src/test/Utils/*.ts" ,
+        "src/test/testData/*"              
 
       ],
       "requireModule": [
