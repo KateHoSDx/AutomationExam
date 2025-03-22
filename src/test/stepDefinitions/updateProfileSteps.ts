@@ -37,10 +37,11 @@ Then(
 When(
   "user select the type of certificate, choose a file, enter an Effective date and click on submit button",
   async function () {
+    await pageFixtures.page.waitForLoadState("networkidle");
     await profilePage.selectCertificate();
     await pageFixtures.page.waitForLoadState("networkidle");
     await profilePage.uploadFile(profileData.testCertificationPath);
-    await profilePage.setEffectiveDate("");
+    await profilePage.setEffectiveDate(profileData.testEffectiveDate);
     await profilePage.submitCertificate();
     sentRequestTime = await profilePage.getCurrentSubmitionTime();
     //
@@ -210,7 +211,7 @@ When("user go to Education, Certifications", async function () {
 });
 
 Then(
-  "{string} request of certification is in the correct state",
+  "the {string} request of certification is in the correct state in user's profile",
   async function (action: string) {
     let actualType = await profilePage.getCertificateCardType();
     let actualFileName = await profilePage.getCertificateCardFile();

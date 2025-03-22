@@ -8,11 +8,11 @@ const loginPage = new LoginPage();
 const profilePage = new ProfilePage();
 
 Given("user is on the login page", async function () {
-  // Write code here that turns the phrase above into concrete actions
   await pageFixtures.page.goto(
     "https://globalsolutions-reference.gpi-test.globepayroll.net/ui/#/dashboard"
   ),
     { waitUntil: "domcontentloaded" };
+  await pageFixtures.page.waitForLoadState("networkidle");
 });
 
 When(
