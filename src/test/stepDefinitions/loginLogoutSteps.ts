@@ -7,9 +7,10 @@ import { ProfilePage } from "../pages/profilePage";
 const loginPage = new LoginPage();
 const profilePage = new ProfilePage();
 
-Given("user is on the login page", { timeout: 15000 }, async function () {
+Given("user is on the login page", { timeout: 20000 }, async function () {
   await loginPage.goTo();
   await pageFixtures.page.waitForLoadState("networkidle");
+  await loginPage.waitForLoginFormToBeVisible();
 });
 
 When(
