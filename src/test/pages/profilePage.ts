@@ -50,7 +50,7 @@ export class ProfilePage {
     let username = await pageFixtures.page
       .locator(this.Elements.username_txt)
       .textContent();
-    return username ?? "";
+    return username ?? " ";
   }
 
   async clickOnProfile() {

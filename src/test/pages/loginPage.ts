@@ -10,10 +10,12 @@ export class LoginPage {
       "//gp-navbar//li[3]//span[@class='block l-h-1x _500 text-capitalize nav-user-name']",
   };
 
-  /*async goTo(): Promise<void> {
-    await pageFixtures.page.goto("/");
+  async goTo() {
+    await pageFixtures.page.goto(
+      "https://globalsolutions-reference.gpi-test.globepayroll.net/ui/#/dashboard"
+    );
     await pageFixtures.page.waitForLoadState("networkidle");
-  }*/
+  }
 
   async enterUsername(username: string) {
     await pageFixtures.page.locator(this.Elements.user_loc).fill(username);
