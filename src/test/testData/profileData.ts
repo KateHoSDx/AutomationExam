@@ -5,7 +5,7 @@ export const ProfileData = {
     eEmpUsername: "KhoTest Emp",
     eManUsername: "KhoTest Man",
     eHrUsername: "KhoTest Hr",
-    eValidator: "KhoTest Hr",
+    //eValidator: "KhoTest Hr",
     //Employee send request popup message
     eHrPopupMsg: "Your successfully completed the task.",
     eManPopupMsg: "Your successfully completed the task.",
@@ -14,6 +14,7 @@ export const ProfileData = {
     //certification add popup title
     eCertificationTitle: " Certifications ",
     testCertificationPath: "../testData/certif001.txt",
+    testCertificationFileName: "certif001.txt",
     testEffectiveDate: "2025-03-21",
     //Task expect results
     eTaskType: "Update personal info",

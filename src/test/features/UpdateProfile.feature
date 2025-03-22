@@ -1,6 +1,6 @@
 Feature: UpdateProfile
 
-    @PositivetTest
+    @PositiveTest
     Scenario: Validate/Reject certification Update request from employee
         Given user is on the login page
         When user enter email, password and click on submit button
@@ -41,8 +41,8 @@ Feature: UpdateProfile
         Then the "<Action>" request notification is displayed
         When user clicks on the notification
         Then the "<Action>" Notification details is displayed
-        #When user go to Education, Certifications
-        #Then <Action> request of certification is in the correct state
+        When user go to Education, Certifications
+        Then <Action> request of certification is in the correct state
 
         Examples:
             | Action  |

@@ -40,6 +40,10 @@ export class ProfilePage {
     firstNotification: "//gp-communications-card/div[1]/div[1]/div[2]/div/span",
     firstNotificationDetails:
       "//gp-notification-details//div[@test-id='notification-body-click']",
+    certificateCardType:
+      "//gp-contract-data//gp-contract-data-card[1]//div[@class='box-body']//div[1]/div/span",
+    certificateCardFile:
+      "//gp-contract-data//gp-contract-data-card[1]//div[@class='box-body']//div[2]/div/span",
   };
 
   async getUserName(): Promise<string> {
@@ -60,6 +64,7 @@ export class ProfilePage {
   async goToCertificate() {
     await pageFixtures.page.locator(this.Elements.mySpace_a).click();
     await pageFixtures.page.locator(this.Elements.persoInfo_a).click();
+    await pageFixtures.page.locator(this.Elements.civilIdentification_a);
     await pageFixtures.page.locator(this.Elements.education_a).click();
     await pageFixtures.page.locator(this.Elements.certification_a).click();
   }
@@ -206,5 +211,17 @@ export class ProfilePage {
     await pageFixtures.page
       .locator(this.Elements.firstNotificationDetails)
       .textContent();
+  }
+  async getCertificateCardType(): Promise<string> {
+    let certifType = await pageFixtures.page
+      .locator(this.Elements.certificateCardType)
+      .textContent();
+    return certifType ?? "";
+  }
+  async getCertificateCardFile(): Promise<string> {
+    let certifFile = await pageFixtures.page
+      .locator(this.Elements.certificateCardFile)
+      .textContent();
+    return certifFile ?? "";
   }
 }
