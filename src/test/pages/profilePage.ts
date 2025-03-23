@@ -28,7 +28,7 @@ export class ProfilePage {
     taskList: "#my-tasks-menu",
     taskListOther: "//button[@test-id='status-filter-other']",
     taskContainer: "tbody",
-    firstTaskType: "//gp-table//tbody/tr[1]/td[1]",
+    firstTaskType: "//gp-workflows//gp-table//table//tr[1]/td[1]",
     firstTaskDetails: "//gp-table//tbody/tr[1]/td[2]",
     firstTaskRequester: "//gp-table//tbody/tr[1]/td[3]//span[1]",
     firstTaskStatus: "//gp-table//tbody//tr[1]/td[5]/div[1]/span[1]",
@@ -144,6 +144,16 @@ export class ProfilePage {
 
   async clicksOnFirstTask() {
     await pageFixtures.page.locator(this.Elements.firstTaskDetails).click();
+  }
+
+  async returnFirstTaskType(): Promise<string> {
+    const locator = pageFixtures.page.locator(this.Elements.firstTaskType);
+    await pageFixtures.page.waitForTimeout(3000);
+
+    const tType = await pageFixtures.page
+      .locator(this.Elements.firstTaskType)
+      .textContent();
+    return tType ?? "";
   }
 
   async getFirstTaskDetails(): Promise<{
