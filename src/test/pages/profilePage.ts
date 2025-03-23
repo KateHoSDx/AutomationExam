@@ -188,6 +188,7 @@ export class ProfilePage {
   }
 
   async getTaskPopover(): Promise<boolean> {
+    await pageFixtures.page.waitForTimeout(3000);
     return await pageFixtures.page
       .locator(this.Elements.taskPopover)
       .isVisible();

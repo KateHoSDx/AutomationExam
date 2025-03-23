@@ -103,13 +103,14 @@ Then(
   { timeout: 10000 },
   async function () {
     await pageFixtures.page.waitForLoadState("networkidle");
-    // const taskDetails = await profilePage.getFirstTaskDetails();
     await pageFixtures.page.waitForTimeout(3000);
-    //const actualTaskType = await profilePage.returnFirstTaskType();
-    //expect(actualTaskType).toBe(profileData.eTaskType);
-    //expect(taskDetails.details).toBe(profileData.eTaskDetails);
-    //expect(taskDetails.requester).toBe(profileData.eEmpUsername);
-    //expect(taskDetails.creationDate).toBe(sentRequestTime);
+    const taskDetails = await profilePage.getFirstTaskDetails();
+    const actualTaskType = await profilePage.returnFirstTaskType();
+
+    expect(actualTaskType).toBe(profileData.eTaskType);
+    expect(taskDetails.details).toBe(profileData.eTaskDetails);
+    expect(taskDetails.requester).toBe(profileData.eEmpUsername);
+    expect(taskDetails.creationDate).toBe(sentRequestTime);
   }
 );
 
@@ -118,6 +119,8 @@ When("user clicks on the task", async function () {
 });
 
 Then("the task details are displayed", async function () {
+  await pageFixtures.page.waitForLoadState("networkidle");
+  await pageFixtures.page.waitForTimeout(3000);
   const isPopoverVisible = await profilePage.getTaskPopover();
   expect(isPopoverVisible).toBe(true);
 });
