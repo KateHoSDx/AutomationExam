@@ -197,7 +197,10 @@ export class ProfilePage {
 
   async clickOnApproveButton() {
     const popover = pageFixtures.page.locator(this.Elements.taskPopover);
-    await popover.evaluate((el) => (el.scrollTop = el.scrollHeight));
+    await popover.hover();
+    // Scroll inside the element
+    await pageFixtures.page.mouse.wheel(0, 1000);
+
     await pageFixtures.page.locator(this.Elements.taskApprove_btn).click();
   }
 
