@@ -7,11 +7,10 @@ let context: BrowserContext;
 let page: Page;
 
 BeforeAll(async function () {
-  browser = await chromium.launch({
-    headless: false,
-  });
+  browser = await chromium.launch({ headless: false });
   context = await browser.newContext();
   page = await context.newPage();
+  await page.setViewportSize({ width: 1800, height: 920 });
   pageFixtures.page = await page;
 });
 

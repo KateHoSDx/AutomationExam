@@ -118,9 +118,9 @@ When("user clicks on the task", async function () {
   await profilePage.clicksOnFirstTask();
 });
 
-Then("the task details are displayed", { timeout: 8000 }, async function () {
+Then("the task details are displayed", { timeout: 10000 }, async function () {
   await pageFixtures.page.waitForLoadState("networkidle");
-  await pageFixtures.page.waitForTimeout(10000);
+  await pageFixtures.page.waitForTimeout(8000);
   let isPopoverVisible = await profilePage.getTaskPopover();
   expect(isPopoverVisible).toBe(true);
 });
