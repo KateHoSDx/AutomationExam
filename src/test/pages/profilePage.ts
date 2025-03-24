@@ -144,6 +144,7 @@ export class ProfilePage {
 
   async clicksOnFirstTask() {
     await pageFixtures.page.locator(this.Elements.firstTaskDetails).click();
+    await pageFixtures.page.locator(this.Elements.firstTaskDetails).click();
   }
 
   async returnFirstTaskType(): Promise<string> {
@@ -195,6 +196,8 @@ export class ProfilePage {
   }
 
   async clickOnApproveButton() {
+    const popover = pageFixtures.page.locator(this.Elements.taskPopover);
+    await popover.evaluate((el) => (el.scrollTop = el.scrollHeight));
     await pageFixtures.page.locator(this.Elements.taskApprove_btn).click();
   }
 
